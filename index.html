@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT YOU</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="entrance-locked">
+    <section class="entrance-screen" id="entranceScreen" aria-label="Website entrance">
+        <div class="entrance-glow" aria-hidden="true"></div>
+        <div class="entrance-content">
+            <h2 class="entrance-title">KENCHIE</h2>
+            <p class="entrance-loading" id="entranceLoading" aria-live="polite">teka</p>
+            <button class="entrance-open" id="entranceOpen" type="button" disabled aria-disabled="true">wait okay?</button>
+            <p class="entrance-credit">ALTER EGO <span>by KENCHIE</span></p>
+        </div>
+        <div class="entrance-progress" aria-hidden="true"><span></span></div>
+    </section>
+    <div class="page-photo" aria-hidden="true"></div>
+    <div class="page-bg" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+    <audio id="backgroundMusic" src="assets/bgmusic.MP3" preload="auto" loop></audio>
+    <audio id="siteMusic" preload="auto"></audio>
+
+    <nav class="nav">
+        <div class="brand">kenchie</div>
+        <div class="links">
+        </div>
+    </nav>
+
+    <main id="members">
+        <h1>ABOUT YOU</h1>
+
+        <section class="members" aria-label="kenchie">
+            <article class="member-card" data-member="KENCHIE" data-handle="@kenchie" data-subtitle="Destiny of Calling" data-name-font="cinzel" data-status="No Current Activity" data-bio="Destiny of Calling" data-bg="assets/KENCHIE.GIF" data-music="assets/kenchie.mp3">
+                <div class="card-image" style="background-image:url('assets/KENCHIE.GIF')"></div>
+                <div class="card-shade"></div>
+                <img class="avatar" src="assets/KENCHIE_PFP.jpg" alt="Kenchie">
+                <div class="member-info"><h2 class="display-name">KENCHIE</h2><div class="member-subtitle">ALL MY DEMONS RUN WILD</div><p>@kenchie</p><small class="discord-activity">Connect Discord to show activity</small></div>
+            </article>
+
+            <article class="member-card" data-member="LEY" data-handle="@ley" data-subtitle="Loves Mavie" data-name-font="space-mono" data-status="No Current Activity" data-bio="Loves Mavie" data-bg="assets/LEY.GIF" data-music="assets/ley.MP3">
+                <div class="card-image" style="background-image:url('assets/LEY.GIF')"></div>
+                <div class="card-shade"></div>
+                <img class="avatar" src="assets/LEY_PFP.jpg" alt="Ley">
+                <div class="member-info"><h2 class="display-name">LEY</h2><div class="member-subtitle"></div><p>@ley</p><small class="discord-activity">Connect Discord to show activity</small></div>
+            </article>
+
+            <article class="member-card" data-member="RIN" data-handle="@Rin" data-subtitle="A member of the COF circle." data-name-font="gothic" data-status="No Current Activity" data-bio="A member of the COF circle." data-bg="assets/RIN.GIF" data-music="assets/rin.MP3">
+                <div class="card-image" style="background-image:url('assets/RIN.GIF')"></div>
+                <div class="card-shade"></div>
+                <img class="avatar" src="assets/RIN_PFP.jpg" alt="Rin">
+                <div class="member-info"><h2 class="display-name">RIN</h2><div class="member-subtitle"></div><p>@rin</p><small class="discord-activity">Connect Discord to show activity</small></div>
+            </article>
+
+            <article class="member-card" data-member="SEN" data-handle="@sen" data-subtitle="" data-name-font="orbitron" data-status="No Current Activity" data-bio="pussy so tight" data-bg="assets/SEN.GIF" data-music="assets/sen.MP3">
+                <div class="card-image" style="background-image:url('assets/SEN.GIF')"></div>
+                <div class="card-shade"></div>
+                <img class="avatar" src="assets/SEN_PFP.jpg" alt="Sen">
+                <div class="member-info"><h2 class="display-name">SEN</h2><div class="member-subtitle"></div><p>@sen</p><small class="discord-activity">Connect Discord to show activity</small></div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+    (() => {
+        const screen = document.getElementById('entranceScreen');
+        const openButton = document.getElementById('entranceOpen');
+        const loadingText = document.getElementById('entranceLoading');
+        if (!screen || !openButton || !loadingText) return;
+
+
+        const phrase = 'kenchie kenchie kenchie kenchie';
+        let index = 0;
+        openButton.disabled = true;
+        openButton.setAttribute('aria-disabled', 'true');
+        const typeNext = () => {
+            index += 1;
+            loadingText.textContent = phrase.slice(0, index);
+            if (index < phrase.length) {
+                window.setTimeout(typeNext, 95);
+            } else {
+                loadingText.classList.add('is-ready');
+                openButton.disabled = false;
+                openButton.removeAttribute('aria-disabled');
+                openButton.textContent = 'OPEN';
+                openButton.classList.add('is-ready');
+            }
+        };
+        loadingText.textContent = '';
+        window.setTimeout(typeNext, 450);
+
+        openButton.addEventListener('click', () => {
+            if (openButton.disabled) return;
+            document.body.classList.remove('entrance-locked');
+            document.body.classList.add('entrance-opened');
+            screen.classList.add('entrance-leaving');
+
+            // Start the background music directly from the OPEN click.
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.45;
+                const playback = backgroundMusic.play();
+                if (playback && typeof playback.catch === 'function') {
+                    playback.catch(() => {
+                        // If playback is blocked, the next user interaction can retry it.
+                    });
+                }
+            }
+
+            window.setTimeout(() => screen.remove(), 850);
+        });
+    })();
+    </script>
+    <script>
+    (() => {
+        document.addEventListener('contextmenu', (event) => event.preventDefault());
+        document.addEventListener('keydown', (event) => {
+            const key = (event.key || '').toLowerCase();
+            const blocked = key === 'f12' ||
+                (event.ctrlKey && event.shiftKey && ['i', 'j', 'c'].includes(key)) ||
+                (event.ctrlKey && ['u', 's'].includes(key)) ||
+                (event.metaKey && event.altKey && ['i', 'j', 'c'].includes(key)) ||
+                (event.metaKey && ['u', 's'].includes(key));
+            if (blocked) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, true);
+    })();
+    </script>
+    <script src="home.js"></script>
+</body>
+</html>
